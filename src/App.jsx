@@ -1,122 +1,122 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from "react";
+import Header from "./components/Header";
+import CartItem from "./components/CartItem";
+import OrderSummary from "./components/OrderSummary";
+import "./App.css";
+
+const initialProducts = [
+  {
+    id: 1,
+    name: "Spicy Roasted Cashews",
+    package: "100g",
+    price: 1120,
+    image: "/products/Item image.png",
+  },
+  {
+    id: 2,
+    name: "Green Pistachios",
+    package: "500g",
+    price: 7850,
+    image: "/products/Item image (1).png",
+  },
+  {
+    id: 3,
+    name: "Seedless Raisins",
+    package: "1kg",
+    price: 3650,
+    image: "/products/Item image (2).png",
+  },
+];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [products, setProducts] = useState(initialProducts);
+
+  const increaseQuantity = (id) => {
+    setProducts((current) =>
+      current.map((product) =>
+        product.id === id
+          ? { ...product, quantity: (product.quantity || 1) + 1 }
+          : product
+      )
+    );
+  };
+
+  const decreaseQuantity = (id) => {
+    setProducts((current) =>
+      current.map((product) =>
+        product.id === id
+          ? {
+              ...product,
+              quantity: Math.max((product.quantity || 1) - 1, 1),
+            }
+          : product
+      )
+    );
+  };
+
+  const subtotal = products.reduce(
+    (total, product) =>
+      total + product.price * (product.quantity || 1),
+    0
+  );
+
+  const deliveryFee = 450;
+  const savings = 70;
+  const estimatedTotal = subtotal + deliveryFee - savings;
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
+    <div className="app">
+      <Header />
+
+      <main className="cart-page">
+        <div className="cart-heading">
+          <span className="eyebrow">YOUR ORDER</span>
+
+          <h1>Shopping cart</h1>
+
           <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
+            {products.length} items reserved for a short time. Review package
+            sizes before checkout.
           </p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
 
-      <div className="ticks"></div>
+        <div className="cart-layout">
+          {/* LEFT SIDE */}
+          <section className="cart-box">
+            <div className="cart-items">
+              {products.map((product, index) => (
+                <CartItem
+                  key={product.id}
+                  product={product}
+                  onIncrease={() => increaseQuantity(product.id)}
+                  onDecrease={() => decreaseQuantity(product.id)}
+                  isLast={index === products.length - 1}
+                />
+              ))}
+            </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+            <div className="cart-bottom">
+              <button className="continue-shopping">
+                ← Continue shopping
+              </button>
+
+              <span className="cart-updated">
+                Cart updated just now
+              </span>
+            </div>
+          </section>
+
+          {/* RIGHT SIDE */}
+          <OrderSummary
+            subtotal={subtotal}
+            deliveryFee={deliveryFee}
+            savings={savings}
+            estimatedTotal={estimatedTotal}
+          />
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
