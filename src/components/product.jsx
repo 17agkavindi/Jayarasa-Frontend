@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ChevronDown, ChevronLeft, ChevronRight, Search, SlidersHorizontal, X } from 'lucide-react';
 
-import cashews from './assets/products/cashews.webp';
-import almonds from './assets/products/almonds.webp';
-import pistachios from './assets/products/pistachios.webp';
-import raisins from './assets/products/raisins.webp';
-import cardamom from './assets/products/cardamom.webp';
-import cloves from './assets/products/cloves.webp';
-import cashewPieces from './assets/products/cashew-pieces.webp';
-import sprinkles from './assets/products/sprinkles.webp';
+import cashews from '../assets/products/cashews.webp';
+import almonds from '../assets/products/almonds.webp';
+import pistachios from '../assets/products/pistachios.webp';
+import raisins from '../assets/products/raisins.webp';
+import cardamom from '../assets/products/cardamom.webp';
+import cloves from '../assets/products/cloves.webp';
+import cashewPieces from '../assets/products/cashew-pieces.webp';
+import sprinkles from '../assets/products/sprinkles.webp';
 
 const categories = [
   { name: 'Nuts', count: 9 },
